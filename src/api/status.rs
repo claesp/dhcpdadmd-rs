@@ -21,7 +21,7 @@ pub struct StatusTypeIdentifier {
 #[derive(Serialize)]
 pub struct StatusTypeResponse {
     status_type_response: String,
-    status_type_date: String
+    status_type_date: String,
 }
 
 #[get("/api/v1/status/{status_type}")]
@@ -30,11 +30,17 @@ pub async fn get_status(type_identifier: Path<StatusTypeIdentifier>) -> Json<Sta
     let status_type_date = Local::now().to_string();
     match status_type.as_str() {
         "ping" => {
-            let resp = StatusTypeResponse{ status_type_response: "pong".to_string(), status_type_date };
+            let resp = StatusTypeResponse {
+                status_type_response: "pong".to_string(),
+                status_type_date,
+            };
             Json(resp)
         }
         _ => {
-            let resp = StatusTypeResponse{ status_type_response: "unknown".to_string(), status_type_date };
+            let resp = StatusTypeResponse {
+                status_type_response: "unknown".to_string(),
+                status_type_date,
+            };
             Json(resp)
         }
     }
