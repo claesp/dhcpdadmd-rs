@@ -1,6 +1,7 @@
 mod api;
 
 use actix_web::{middleware::Logger, web::Data, App, HttpServer};
+use api::configuration::get_configuration;
 use api::status::get_status;
 
 #[actix_web::main]
@@ -11,7 +12,10 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(move || {
         let logger = Logger::default();
-        App::new().wrap(logger).service(get_status)
+        App::new()
+            .wrap(logger)
+            .service(get_status)
+            .service(get_configuration)
     })
     .bind(("127.0.0.1", 8080))?
     .run()
